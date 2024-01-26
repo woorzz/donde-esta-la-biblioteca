@@ -109,7 +109,20 @@ Pour plus d'informations : [LINQ - Microsoft](https://learn.microsoft.com/fr-fr/
 
 ### Etape 4 : Injection de dépendance
 
-Pour réaliser de l'injection de dépendance, créez une réplique de toutes vos classes concrètes ayant de la logique et instanciés ailleurs dans votre code.
+Il s'agit ici d'un concept extrêmement important lors du développement d'une application aujourd'hui.
+On ne développe non plus à partir de classe concrète mais à partir des interfaces afin de réduire le couplage de vos applications à l'implémentation.
+
+// Théorie
+// Joli schéma
+
+Par exemple, nous possède une classe concrète `ApiACaller` que j'instancie à plusieurs endroits dans mon code. 
+Demain, on nous demande de la remplacer par un `ApiBCaller` car la source de doit changer.
+Plutôt que d'avoir à changer toutes références à notre classe concrète, nous allons mettre dans le constructeur notre interface qui vous donnera les fonctions disponibles.
+Et à plus haut niveau, nous lui injecterons la classe concrète qui correspondera à cette interface.
+
+A la compilation, la classe concrète correspondante est inconnu. Par contre, à l'exécution, cette classe est injecté à chaque qu'une référence à celle-ci est faite via l'interface.
+
+De ce fait, lorsque que nous changerons l'implementation via une nouvelle classe, nous aurons juste besoin de changer la configuration correspondante.
 
 ```cs
   public interface IApiCaller {
@@ -139,7 +152,32 @@ Pour réaliser de l'injection de dépendance, créez une réplique de toutes vos
   }
 ```
 
-Pour vos repository, on fera un peu différemment. Vous allez créer une seule interface `IGenericRepository` qui prendra en paramètre un type générique. 
+En allant plus loin, chaque utilisation  :
+
+```cs
+  public A(IB b){
+    _b = b;
+  }
+
+  public B(IC c){
+    _c = c;
+  }
+
+  // Et ainsi de suite
+```
+
+On peut injecter un Singleton ! Renseignez vous sur la documentation pour connaître les cycles de vie des objets injecté. 
+
+Pour réaliser de l'injection de dépendance, extrayez une interface de vos classes concrètes ayant de la logique et instanciés ailleurs dans votre code (Ex : Services...)
+
+Pour vos repository, on fera un peu différemment. Vous allez créer une seule interface `IGenericRepository` qui prendra en paramètre un type générique. Aidez-vous de la documentation.
+
+
+Pour récupérer votre classe correspondante dans le `Main` et tester (en reprenant l'exemple du `IApiCaller` :
+```cs
+  IApiCaller apiCaller = host.Services.GetRequiredService<IApiCaller>();
+  apiCaller.Call();
+```
 
 Pour plus d'informations : 
 - [Injection de dépendance - Microsoft](https://learn.microsoft.com/fr-fr/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-8.0)
