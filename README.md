@@ -152,7 +152,7 @@ De ce fait, lorsque que nous changerons l'implementation via une nouvelle classe
   }
 ```
 
-En allant plus loin, chaque utilisation  :
+En allant plus loin, on peut récupérer toutes vos classes de cette manière :
 
 ```cs
   public A(IB b){
