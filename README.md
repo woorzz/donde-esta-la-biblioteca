@@ -6,7 +6,26 @@ Vous allez réaliser une petite application qui vous permettra de gérer une lis
 Une petite BDD sera jointe au projet qu'on va essayer d'enrichir au maximum.
 L'idée est d'être en autonomie par Groupe de 2.
 
-Le but du projet est de voir un maximum de choses que .NET peut vous apporter donc n'hésitez pas à demander au prof.
+Le but du projet est de voir un maximum des choses que .NET peut vous apporter donc n'hésitez pas à demander au prof.
+
+Pensez aussi à regarder les raccourcis utiles en bas de page.
+
+Vous pouvez *Fork* ce repo Git, le cloner en local et travailler directement dedans. 
+
+## Les mots clefs
+
+- *Solution*
+  - La racine de votre application .NET qui permet d'avoir la vision globale des projet
+  - Manifesté sous la forme d'un fichier *.sln*, c'est ce fichier qu'il faut ouvrir pour ouvrir votre espace de travail
+  - Va contenir un ou plusieurs projet
+- *Projet* :
+  - Bloc de construction de l'application
+  - Va générer une dll par projet
+  - Facilement extractable d'une solution à une autre
+- *Nuget* :
+  - Beignet de poulet frit (existe aussi en version vegan)
+  - Gestionnaire de package
+  - Permet d'intégrer des dll à votre projet pour étendre les fonctionnalités de votre code (AutoMapper, ORM...)
 
 ### Critère de qualité
 
@@ -26,32 +45,53 @@ Le but du projet est de voir un maximum de choses que .NET peut vous apporter do
 
 ### Etape 1 : Créer sa solution .NET
 
-Créer une application console nommé LibraryManager. N'oubliez pas d'ajouter le nuget : Microsoft.Extensions.Hosting
-Et mettre en place son architecture de projets (ClassLibrary) :
+Créez un nouveau projet via Visual Studio 2022, puis sélectionner une *application console* nommée `LibraryManager`.
+
+Pensez à ajouter via le *gestionnaire de package Nuget* sur votre projet : Microsoft.Extensions.Hosting
+
+Et mettre en place son architecture de projets en ajoutant via VS des *Librairies de classes* :
 - `BusinessLayer` : Couche métier; on va y mettre toute la logique métier
 - `Services` : Couche services intermédiaire; va permettre d'orchestrer les besoins et de relier d'autres couches entre elles
-- `BusinessObjects` : Couche contenant vos objets métier (objets de bdd ou de travail)
+- `BusinessObjects` : Couche contenant vos objets métier (objets de base de données ou de travail)
 - `DataAccessLayer` : Couche permettant l'accès aux données; on y retrouvera notamment les repository
 
 PS : Votre projet créer avec la solution fait office de couche d'entrée à l'application et configuration
 
-Créer une méthode Main dans le `Program.cs` grâce aux recommandations VS.
+Créer une méthode Main dans le `Program.cs` grâce aux recommandations VS `Alt + Entrée` à la l'intérieur du fichier, puis ajouter dans la classe Program la méthode :
+
+```cs
+    private static IHost CreateHostBuilder(IConfigurationBuilder configuration)
+    {
+        return Host.CreateDefaultBuilder()
+            .ConfigureServices(services =>
+            {
+              // Configuration des services
+            })
+            .Build();
+    }
+```
+
+Pensez à commit votre code.
 
 ### Etape 2 : Préparer son architecture
 
+Maintenant passons à l'implémentation de notre architecture.
+
 1. Dans votre projet `BusinessObjects`, créez un dossier `Entity`, puis dans ce dossier créez les objets correspondants aux tables du fichier `LibraryInit.sql`
 
-Pour les types de livres, pensez à créer un `enum`.
+Pour le type des types de livres, pensez à créer un `enum`.
 
 2. Dans votre projet `DataAccessLayer`, créez un dossier `Repository`, puis dans ce dossier une classe `BookRepository`
 
-Vous y créerez les méthodes `GetAll()` qui retournera un `IEnumerable<Book>` et `Get(int id)` qui retounera un `Book`
+Vous y créerez les méthodes `GetAll()` qui retournera un `IEnumerable<Book>` et `Get(int id)` qui retounera un `Book`, vous pouvez `return` des objets vides à ce stade.
+
 Répétez le même schéma pour chacune de vos entités.
 
-3. Dans votre projet `BusinessLayer`, créez un dossier `Catalog`, puis dans ce dossier une classe `CatalogManager` qui contiendra les méthodes `DisplayCatalog()` et `FindBook(int id)` qui utiliseront les Repository.
+3. Dans votre projet `BusinessLayer`, créez un dossier `Catalog`, puis dans ce dossier une classe `CatalogManager` qui contiendra les méthodes `DisplayCatalog()`, `DisplayCatalog(Type type)` et `FindBook(int id)` qui utiliseront les Repository.
 
 4. Dans votre projet `Services`, créez un dossier `Services`, puis dans ce dossier une classe `CatalogService` qui contiendra les méthodes `ShowCatalog()` et `FindBook(int id)` qui utiliseront le `CatalogManger`
 
+Pensez à commit votre code.
 
 ### Etape 3 : LINQ
 
@@ -73,7 +113,7 @@ Pour plus d'informations :
 
 ### Etape 5 : EntityFramework
 
-Avec l'aide de la base de données SQLite fournit en annexe, vous allez implémenter l'ORM EntityFramework.
+Avec l'aide de la base de données SQLite fournit en annexe, vous allez implémenter l'ORM *EntityFramework*.
 
 
 Pour plus d'informations : [EntityFramework - Microsoft](https://learn.microsoft.com/fr-fr/ef/core/)
@@ -96,7 +136,7 @@ WIP
 
 ### Raccourcis utiles 
 
-- Recommandation VS : `Alt + Entrée`
+- Recommandation VS : `Alt + Entrée` => Hyper utile, n'hésitez pas àen abuser
 - Renommer un élément et ses références : `(Hold) CTRL + R + R`
 - Créer une propriété : `(Write) prop + Tab`
 - Créer un constructeur: `(Write) ctor + Tab`
