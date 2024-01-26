@@ -71,7 +71,7 @@ Créer une méthode Main dans le `Program.cs` grâce aux recommandations VS `Alt
     }
 ```
 
-Pensez à commit votre code.
+⚠️ Pensez à commit.
 
 ### Etape 2 : Préparer son architecture
 
@@ -87,15 +87,21 @@ Vous y créerez les méthodes `GetAll()` qui retournera un `IEnumerable<Book>` e
 
 Répétez le même schéma pour chacune de vos entités.
 
-3. Dans votre projet `BusinessLayer`, créez un dossier `Catalog`, puis dans ce dossier une classe `CatalogManager` qui contiendra les méthodes `DisplayCatalog()`, `DisplayCatalog(Type type)` et `FindBook(int id)` qui utiliseront les Repository.
+3. Dans votre projet `BusinessLayer`, créez un dossier `Catalog`, puis dans ce dossier une classe `CatalogManager` qui contiendra les méthodes `DisplayCatalog()`, `DisplayCatalog(Type type)` et `FindBook(int id)` qui utiliseront les Repository
 
-4. Dans votre projet `Services`, créez un dossier `Services`, puis dans ce dossier une classe `CatalogService` qui contiendra les méthodes `ShowCatalog()` et `FindBook(int id)` qui utiliseront le `CatalogManger`
+4. Dans votre projet `Services`, créez un dossier `Services`, puis dans ce dossier une classe `CatalogService` qui contiendra les méthodes `ShowCatalog()`, `ShowCatalog(Type type)` et `FindBook(int id)` qui utiliseront le `CatalogManger`
 
-Pensez à commit votre code.
+⚠️ Pensez à commit.
 
 ### Etape 3 : LINQ
 
-En utilisant Linq :
+LINQ (prononcé line-cue) est langage d'interrogation pour vos tableaux en .NET. C'est un nuget à installer.
+
+Celui vos permettra de filtrer vos tableaux et d'ajouter une granularité supplémentaire.
+Il est possible d'utiliser LINQ via le langage correspondant (comme du SQL) ou d'utiliser des méthodes d'extensions sur vos listes (Ex : `_voitures.Where(x => x.Price < 2000)`)
+
+Dans ce contexte, on utilisera le langage LINQ comme dans la documentation Microsoft mais sachez que les deux sont possibles.
+
 1. Dans les `BusinessLayer` et `Services`, ajoutez une méthode pour ne remonter que les livres de type "Fantasy"
 2. Dans les `BusinessLayer` et `Services`, ajoutez une méthode pour remonter le livre le mieux noté
 
@@ -105,11 +111,41 @@ Pour plus d'informations : [LINQ - Microsoft](https://learn.microsoft.com/fr-fr/
 
 Pour réaliser de l'injection de dépendance, créez une réplique de toutes vos classes concrètes ayant de la logique et instanciés ailleurs dans votre code.
 
+```cs
+  public interface IApiCaller {
+    object Call();
+  }
+
+  public class ApiACaller : IApiCaller {
+    public object Call() {
+      return ResultA;
+    }
+  }
+
+  public class ApiBCaller : IApiCaller {
+    public object Call() {
+      return ResultB;
+    }
+  }
+
+  // Before
+  public Constructor() {
+    _caller = new ApiACaller();
+  }
+
+  // After
+  public Constructor(IApiCaller apiCaller) {
+    _caller = apiCaller;
+  }
+```
+
 Pour vos repository, on fera un peu différemment. Vous allez créer une seule interface `IGenericRepository` qui prendra en paramètre un type générique. 
 
 Pour plus d'informations : 
 - [Injection de dépendance - Microsoft](https://learn.microsoft.com/fr-fr/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-8.0)
 - [Classes et méthodes générique - Microsoft](https://learn.microsoft.com/fr-fr/dotnet/csharp/fundamentals/types/generics)
+
+⚠️ Pensez à commit.
 
 ### Etape 5 : EntityFramework
 
@@ -128,6 +164,8 @@ Créez une classe `CatalogServiceTest`.
 Implémentez un test unitaire sur chaque méthode de votre `CatalogService` en pensant à Mock le retour de votre `CatalogManager`pour bien tester unitairement votre méthode.
 
 Pour plus d'informations : [TU avec C# - Microsoft](https://learn.microsoft.com/fr-fr/dotnet/core/testing/unit-testing-with-mstest)
+
+⚠️ Pensez à commit.
 
 ### Etape 7 : API
 
