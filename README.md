@@ -118,7 +118,7 @@ On ne développe non plus à partir de classe concrète mais à partir des inter
 
 L’injection de dépendances consiste, pour une classe, à déléguer la création de ses dépendances au code appelant qui va ensuite les injecter dans la classe correspondante. De ce fait, la création d’une instance de la dépendance est effectuée à l’extérieur de la classe dépendante et injectée dans la classe.
 
-
+![Dependency Injection](/schemas/dependancy_injection.drawio.png)
 
 Par exemple, nous possède une classe concrète `ApiACaller` que j'instancie à plusieurs endroits dans mon code. 
 Demain, on nous demande de la remplacer par un `ApiBCaller` car la source de doit changer.
