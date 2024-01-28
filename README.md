@@ -57,7 +57,7 @@ Et mettre en place son architecture de projets en ajoutant via VS des *Librairie
 - `BusinessObjects` : Couche contenant vos objets métier (objets de base de données ou de travail)
 - `DataAccessLayer` : Couche permettant l'accès aux données; on y retrouvera notamment les repository
 
-PS : Votre projet créer avec la solution fait office de couche d'entrée à l'application et configuration
+PS: Votre projet créer avec la solution fait office de couche d'entrée à l'application et configuration
 
 Créer une méthode Main dans le `Program.cs` grâce aux recommandations VS `Alt + Entrée` à la l'intérieur du fichier, puis ajouter dans la classe Program la méthode :
 
@@ -277,9 +277,57 @@ app.Run();
 
 Transformez votre fichier grâce aux recommandations VS `Alt + Entrée`.
 
-WIP
+Ajoutez à votre builder les services de votre précédent `Program.cs`.
 
-Créez un dossier `Controllers` dans laquel vous allez créez le fichier `BookController` qui va commprendre les méthodes *GET* suivants :
+Observez la classe créé :
+
+```cs
+using Microsoft.AspNetCore.Mvc;
+
+namespace API.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class WeatherForecastController : ControllerBase
+    {
+        private static readonly string[] Summaries = new[]
+        {
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        };
+
+        private readonly ILogger<WeatherForecastController> _logger;
+
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        {
+            _logger = logger;
+        }
+
+        [HttpGet(Name = "GetWeatherForecast")]
+        public IEnumerable<WeatherForecast> Get()
+        {
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
+        }
+    }
+}
+```
+Les éléments entre crochets sont appelés des attributs. Ils définissent des métadonnées qui sont lisible durant l'exécution.
+
+Vous pouvez créé vos propres attributs, mais les attributs par défaut définissent des comportements :
+- `[ApiController]` définit les comportements par défaut d'une API REST
+- `[Route("[controller]")]` définit la route pour accéder à un controller; le `[controller]` désigne le nom de la classe en tant que endpoint 
+- `[HttpGet(Name = "GetWeatherForecast")]` définit la méthode la méthode attendu
+
+Donc pour accéder à cette API, nous utiliserons `GET localhost:53000/WeatherForecast/GetWeatherForecast`. Il existe même des attributs pour l'authentification.
+
+Après l'explication, place à la pratique.
+
+Créez un fichier `BookController` qui va commprendre les méthodes *GET* suivants :
 - book
 - book/{id}
 - book/{type}
@@ -287,14 +335,16 @@ Créez un dossier `Controllers` dans laquel vous allez créez le fichier `BookCo
 
 Pour tester votre API, installez [Postman](https://www.postman.com/).
 
+Pour plus d'informations : [Tutoriel ASP.NET Core Web API- Microsoft](https://learn.microsoft.com/fr-fr/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&tabs=visual-studio)
+
 ⚠️ Pensez à commit.
 
-### Etape 8 :
+### Etape 8 : Vous allez plus vite que prévu ?
 
 Améliorer votre bibliothèque :
 - Créez de nouveaux endpoint pour accéder aux différentes tables.
 - Ajoutez une table `Client` pour permettre à un client d'emprunter un livre et d'être black listed.
-- Ajoutez une notion de quantité de stock.
+- Ajoutez une notion de quantité à votre stock.
 - Permettre à un client d'emprunter des livres, de les rendres.
 
 
