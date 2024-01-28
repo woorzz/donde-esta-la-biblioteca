@@ -81,7 +81,7 @@ Maintenant passons à l'implémentation de notre architecture.
 
 1. Dans votre projet `BusinessObjects`, créez un dossier `Entity`, puis dans ce dossier créez les objets correspondants aux tables du fichier `LibraryInit.sql`
 
-Pour le type des types de livres, pensez à créer un `enum`.
+Pour le type des types de livres, pensez à créer un `enum`. Pas besoin de créer un fichier pour la table de `Stock`.
 
 2. Dans votre projet `DataAccessLayer`, créez un dossier `Repository`, puis dans ce dossier une classe `BookRepository`
 
@@ -116,8 +116,9 @@ Pour plus d'informations : [LINQ - Microsoft](https://learn.microsoft.com/fr-fr/
 Il s'agit ici d'un concept extrêmement important lors du développement d'une application aujourd'hui.
 On ne développe non plus à partir de classe concrète mais à partir des interfaces afin de réduire le couplage de vos applications à l'implémentation.
 
-// Théorie
-// Joli schéma
+L’injection de dépendances consiste, pour une classe, à déléguer la création de ses dépendances au code appelant qui va ensuite les injecter dans la classe correspondante. De ce fait, la création d’une instance de la dépendance est effectuée à l’extérieur de la classe dépendante et injectée dans la classe.
+
+
 
 Par exemple, nous possède une classe concrète `ApiACaller` que j'instancie à plusieurs endroits dans mon code. 
 Demain, on nous demande de la remplacer par un `ApiBCaller` car la source de doit changer.
@@ -176,7 +177,6 @@ Pour réaliser de l'injection de dépendance, extrayez une interface de vos clas
 
 Pour vos repository, on fera un peu différemment. Vous allez créer une seule interface `IGenericRepository` qui prendra en paramètre un type générique. Aidez-vous de la documentation.
 
-
 Pour récupérer votre classe correspondante dans le `Main` et tester (en reprenant l'exemple du `IApiCaller` :
 
 ```cs
@@ -194,10 +194,26 @@ Pour plus d'informations :
 
 Avec l'aide de la base de données SQLite fournit en annexe, vous allez implémenter l'ORM *EntityFramework*.
 
+Le but ici est d'au lieu de renvoyer des listes vides au niveau de vos `Repositories`, de renvoyer les infos qui sont stockées en base de données.
+
+Dans votre `DataAccessLayer`, créez un dossier `Contexts` et un fichier `LibraryContext` qui implémentera la classe `DbContext`, servez-vous de la documentation pour remplir votre DbContext.  
+
+Pensez à l'injecter, pour une fois on utilisera une classe concrète. Vous aurez sûrement un autre Nuget à récupérer sur vos deux projets.
+
+```cs
+  services.AddDbContext<LibraryContext>(options =>
+    options.UseSqlite("Data Source={path};"));
+```
+
+Dans vos respositories, utilisez le `LibraryContext` injecté pour récupérer le contenu de la base.
+
+
 
 Pour plus d'informations : [EntityFramework - Microsoft](https://learn.microsoft.com/fr-fr/ef/core/)
 
 Pour consulter votre base de données, je vous conseille l'utilisation de [DBeaver](https://learn.microsoft.com/fr-fr/dotnet/csharp/fundamentals/types/generics)
+
+⚠️ Pensez à commit.
 
 ### Etape 6 : TU
 
@@ -266,6 +282,15 @@ Pour tester votre API, installez [Postman](https://www.postman.com/).
 
 ⚠️ Pensez à commit.
 
+### Etape 8 :
+
+Améliorer votre bibliothèque :
+- Créez de nouveaux endpoint pour accéder aux différentes tables.
+- Ajoutez une table `Client` pour permettre à un client d'emprunter un livre et d'être black listed.
+- Ajoutez une notion de quantité de stock.
+- Permettre à un client d'emprunter des livres, de les rendres.
+
+
 ### Raccourcis utiles 
 
 - Recommandation VS : `Alt + Entrée` => Hyper utile, n'hésitez pas àen abuser
@@ -279,3 +304,8 @@ Pour tester votre API, installez [Postman](https://www.postman.com/).
 - Faire continuer le programme : `F5`
 - Instruction suivante : `F10`
 - Instruction suivante dans la méthode : `F11`
+
+### Contacts
+
+Mail : erwann.fiolet@gmail.com
+Discord : byabyakar
