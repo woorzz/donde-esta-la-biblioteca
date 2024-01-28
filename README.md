@@ -47,6 +47,8 @@ Vous pouvez *Fork* ce repo Git, le cloner en local et travailler directement ded
 
 Créez un nouveau projet via Visual Studio 2022, puis sélectionner une *application console* nommée `LibraryManager`.
 
+Si vous n'avez pas d'explorateur de solution sur votre IDE, vous pouvez aussi l'ajouter via le menu `Affichage > Explorateur de Solution`.
+
 Pensez à ajouter via le *gestionnaire de package Nuget* sur votre projet : Microsoft.Extensions.Hosting
 
 Et mettre en place son architecture de projets en ajoutant via VS des *Librairies de classes* :
