@@ -307,5 +307,5 @@ Améliorer votre bibliothèque :
 
 ### Contacts
 
-Mail : erwann.fiolet@gmail.com
-Discord : byabyakar
+- Mail : erwann.fiolet@gmail.com
+- Discord : byabyakar
