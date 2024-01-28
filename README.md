@@ -176,6 +176,7 @@ Pour vos repository, on fera un peu différemment. Vous allez créer une seule i
 
 
 Pour récupérer votre classe correspondante dans le `Main` et tester (en reprenant l'exemple du `IApiCaller` :
+
 ```cs
   IApiCaller apiCaller = host.Services.GetRequiredService<IApiCaller>();
   apiCaller.Call();
@@ -211,8 +212,53 @@ Pour plus d'informations : [TU avec C# - Microsoft](https://learn.microsoft.com/
 
 On va maintenant mettre en place une API. Pour rappel, une API est une interface logiciel sur laquel vous pourrez vous connecter et récupérer des informations via requête HTTP. Elle vous renverra un résultat sous la forme d'un JSON.
 
-Pour cela, vous allez créer un nouveau projet de type `ASP.NET Core WebAPI` que vous allez mettre en tant que projet de démarrage. 
+Pour cela, vous allez créer un nouveau projet de type `ASP.NET Core WebAPI`, sans authentification que vous allez appeler `LibraryManager.Hosting`.
 
+Une fois créée, vous allez mettre ce projet en tant que projet de démarrage. 
+
+Votre nouveau `Program.cs`, va ressembler à ça :
+
+```cs
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers(); 
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+/*
+Les Middleware ajoutés avant le builder seront récupérer par l'application
+*/
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+```
+
+Transformez votre fichier grâce aux recommandations VS `Alt + Entrée`.
+
+WIP
+
+Créez un dossier `Controllers` dans laquel vous allez créez le fichier `BookController` qui va commprendre les endpoints suivants :
+- book
+- book/{id}
+- book/{type}
+- book/topRatedBook
 
 Pour tester votre API, installez [Postman](https://www.postman.com/).
 
