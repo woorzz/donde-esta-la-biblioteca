@@ -83,9 +83,13 @@ Maintenant passons à l'implémentation de notre architecture.
 
 Pour le type des types de livres, pensez à créer un `enum`. Pas besoin de créer un fichier pour la table de `Stock`.
 
+Dans le cadre d'une relation `OneToMany` (1..\*) ou `ManyToMany` (\*), le **Many** se manifeste sous la forme d'une liste (Ex : `IEnumerable<ClassA>`) et le **One** sous la forme d'un objet simple (Ex : `ClassA`).
+
 2. Dans votre projet `DataAccessLayer`, créez un dossier `Repository`, puis dans ce dossier une classe `BookRepository`
 
 Vous y créerez les méthodes `GetAll()` qui retournera un `IEnumerable<Book>` et `Get(int id)` qui retounera un `Book`, vous pouvez `return` des objets vides à ce stade.
+
+PI : Vous aurez besoin d'ajouter des références d'un projet à un autre pour permettre d'utiliser vos entités à l'extérieur de leur projet respectif.
 
 Répétez le même schéma pour chacune de vos entités.
 
@@ -192,7 +196,7 @@ Pour plus d'informations :
 
 ### Etape 5 : EntityFramework
 
-Avec l'aide de la base de données SQLite fournit en annexe, vous allez implémenter l'ORM *EntityFramework*.
+Avec l'aide de la base de données SQLite fournit en annexe, vous allez implémenter l'ORM **EntityFramework**.
 
 Le but ici est d'au lieu de renvoyer des listes vides au niveau de vos `Repositories`, de renvoyer les infos qui sont stockées en base de données.
 
@@ -206,8 +210,6 @@ Pensez à l'injecter, pour une fois on utilisera une classe concrète. Vous aure
 ```
 
 Dans vos respositories, utilisez le `LibraryContext` injecté pour récupérer le contenu de la base.
-
-
 
 Pour plus d'informations : [EntityFramework - Microsoft](https://learn.microsoft.com/fr-fr/ef/core/)
 
@@ -293,7 +295,7 @@ Améliorer votre bibliothèque :
 
 ### Raccourcis utiles 
 
-- Recommandation VS : `Alt + Entrée` => Hyper utile, n'hésitez pas àen abuser
+- Recommandation VS : `Alt + Entrée` => Hyper utile, n'hésitez pas à en abuser
 - Renommer un élément et ses références : `(Hold) CTRL + R + R`
 - Créer une propriété : `(Write) prop + Tab`
 - Créer un constructeur: `(Write) ctor + Tab`
@@ -304,6 +306,7 @@ Améliorer votre bibliothèque :
 - Faire continuer le programme : `F5`
 - Instruction suivante : `F10`
 - Instruction suivante dans la méthode : `F11`
+- Ajouter une référence à un projet : `Clic droit sur un Projet > Ajouter > Ajouter une référence à un projet`
 
 ### Contacts
 
