@@ -164,12 +164,17 @@ De ce fait, lorsque que nous changerons l'implementation via une nouvelle classe
 En allant plus loin, on peut récupérer toutes vos classes de cette manière :
 
 ```cs
-  public A(IB b){
+  public ClassA(InterfaceB b){
     _b = b;
   }
 
-  public B(IC c){
+  public ClassB(InterfaceC c){
     _c = c;
+  }
+ 
+  public ClassD(InterfaceA a, InterfaceB b) {
+    _a = a;
+    _b = b;
   }
 
   // Et ainsi de suite
@@ -181,7 +186,7 @@ Pour réaliser de l'injection de dépendance, extrayez une interface de vos clas
 
 Pour vos repository, on fera un peu différemment. Vous allez créer une seule interface `IGenericRepository` qui prendra en paramètre un type générique. Aidez-vous de la documentation.
 
-Pour récupérer votre classe correspondante dans le `Main` et tester (en reprenant l'exemple du `IApiCaller` :
+Pour récupérer votre classe correspondante dans le `Main` et tester en reprenant l'exemple du `IApiCaller` :
 
 ```cs
   IApiCaller apiCaller = host.Services.GetRequiredService<IApiCaller>();
