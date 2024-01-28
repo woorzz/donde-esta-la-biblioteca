@@ -256,7 +256,7 @@ Transformez votre fichier grâce aux recommandations VS `Alt + Entrée`.
 
 WIP
 
-Créez un dossier `Controllers` dans laquel vous allez créez le fichier `BookController` qui va commprendre les endpoints suivants :
+Créez un dossier `Controllers` dans laquel vous allez créez le fichier `BookController` qui va commprendre les méthodes *GET* suivants :
 - book
 - book/{id}
 - book/{type}
