@@ -107,6 +107,8 @@ Dans ce contexte, on utilisera le langage LINQ comme dans la documentation Micro
 
 Pour plus d'informations : [LINQ - Microsoft](https://learn.microsoft.com/fr-fr/dotnet/csharp/linq/)
 
+⚠️ Pensez à commit.
+
 ### Etape 4 : Injection de dépendance
 
 Il s'agit ici d'un concept extrêmement important lors du développement d'une application aujourd'hui.
@@ -207,8 +209,14 @@ Pour plus d'informations : [TU avec C# - Microsoft](https://learn.microsoft.com/
 
 ### Etape 7 : API
 
-WIP
+On va maintenant mettre en place une API. Pour rappel, une API est une interface logiciel sur laquel vous pourrez vous connecter et récupérer des informations via requête HTTP. Elle vous renverra un résultat sous la forme d'un JSON.
 
+Pour cela, vous allez créer un nouveau projet de type `ASP.NET Core WebAPI` que vous allez mettre en tant que projet de démarrage. 
+
+
+Pour tester votre API, installez [Postman](https://www.postman.com/).
+
+⚠️ Pensez à commit.
 
 ### Raccourcis utiles 
 
